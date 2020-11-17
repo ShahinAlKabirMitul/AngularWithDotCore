@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs
+/SocialApp/API/.vs/SocialApp
+/SocialApp/API/SocialApp.API/bin/Debug/netcoreapp3.1
+/SocialApp/API/SocialApp.API/Migrations
+/SocialApp/API/SocialApp.API/obj
+/SocialApp/API/SocialApp.Data/bin/Debug/netcoreapp3.1
+/SocialApp/API/SocialApp.Data/obj
+/SocialApp/API/SocialApp.Entities/obj
+/SocialApp/API/SocialApp.Entities/bin/Debug/netcoreapp3.1
