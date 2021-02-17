@@ -11,3 +11,5 @@
 /SocialApp/API/SocialApp.Data/obj
 /SocialApp/API/SocialApp.Entities/obj
 /SocialApp/API/SocialApp.Entities/bin/Debug/netcoreapp3.1
+/DatingApp/DatingApp/API/bin/Debug/net5.0
+/DatingApp/DatingApp/API/obj
