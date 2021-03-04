@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,15 +19,17 @@ namespace API.Controllers
     {
 
         private readonly DataContext dataContext;
+        private readonly ITokenService tokenService;
 
-        public AccountController( DataContext dataContext)
+        public AccountController( DataContext dataContext,ITokenService tokenService)
         {
            
             this.dataContext = dataContext;
+            this.tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegistrerDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegistrerDto registerDto)
         {
             if (await UserExists(registerDto.UserName))
             {
@@ -41,11 +44,15 @@ namespace API.Controllers
             };
              dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
-            return user;
+            return new UserDto()
+            { 
+                UserName=user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await dataContext.Users.SingleOrDefaultAsync(s => s.UserName == loginDto.UserName.ToLower());
             if (user == null)
@@ -63,7 +70,11 @@ namespace API.Controllers
                 }
             }
 
-            return user;
+            return new UserDto()
+            {
+                UserName = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
         }
 
         private async Task<bool> UserExists(string username)
